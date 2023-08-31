@@ -10,27 +10,27 @@ import FirebaseDatabase
 
 class RealTimeDBManager {
     
-    //MARK: - properties
-    //A Firebase reference points to a location in Firebase where data is stored. Even if you create multiple references, they all share the same connection.
+    // MARK: - properties
+    // A Firebase reference points to a location in Firebase where data is stored. Even if you create multiple references, they all share the same connection.
     private var ref: DatabaseReference!
 //    private var refHandle: DatabaseHandle?
     private var dataList: [[String: String]] = []
-    var lastFetchedKey: String? = nil
+    var lastFetchedKey: String?
     let itemsPerPage = 5 // Number of items to fetch per page
     var currentIndex: Int = 0
     
     static let shared = RealTimeDBManager()
     private init() {}
     
-    //MARK: - Methods
+    // MARK: - Methods
     func setUpReference(key: String) {
         ref = Database.database().reference().child(key)
     }
    
-    func setObserver(completion: @escaping ([[String:String]]?) -> Void) {
+    func setObserver(completion: @escaping ([[String: String]]?) -> Void) {
         
-        //observing the data changes
-        //DataEventType.value :- Read and listen for changes to the entire contents of a path.
+        // observing the data changes
+        // DataEventType.value :- Read and listen for changes to the entire contents of a path.
         var query = ref.queryOrderedByKey()
         
         if self.dataList.isEmpty {
@@ -82,8 +82,8 @@ class RealTimeDBManager {
         return ref.childByAutoId().key
     }
     
-    func addData(key:String, data: [String: String]?, completion: @escaping (Bool, Error?) -> Void) {
-        ref.child(key).setValue(data) { error, ref in
+    func addData(key: String, data: [String: String]?, completion: @escaping (Bool, Error?) -> Void) {
+        ref.child(key).setValue(data) { error, _ in
             if let error {
                 print("Data could not be saved: \(error).")
                 completion(false, error)
@@ -107,7 +107,7 @@ class RealTimeDBManager {
     func delete(id: String, completion: @escaping (Bool, Error?) -> Void) {
         
 //        ref.child(id).removeValue()
-        //or
+        // or
         addData(key: id, data: nil) {success, error in
             if success {
                 completion(success, nil)
@@ -121,8 +121,8 @@ class RealTimeDBManager {
     func removeObserver() {
     }
     
-    //get data with paging
-    func pagingData(completion: @escaping ([[String:String]]?) -> Void) {
+    // get data with paging
+    func pagingData(completion: @escaping ([[String: String]]?) -> Void) {
         
         var query = ref.queryOrderedByKey()
         
@@ -132,17 +132,17 @@ class RealTimeDBManager {
             query = query.queryLimited(toFirst: UInt(itemsPerPage))
         }
         
-        query.getData { (error, snapshot) in
+        query.getData { (_, snapshot) in
             
-            //if the reference have some values
+            // if the reference have some values
             if let snapshot, snapshot.childrenCount > 0 {
                 
                 var list: [[String: String]] = []
-                
-                //iterating through all the values
-                for items in snapshot.children.allObjects as! [DataSnapshot] {
+                guard let snapshots = snapshot.children.allObjects as? [DataSnapshot] else {return}
+                // iterating through all the values
+                for items in snapshots {
                     
-                    //getting values
+                    // getting values
                     let object = items.value as? [String: AnyObject]
                     
                     var dict: [String: String] = [:]
@@ -151,7 +151,7 @@ class RealTimeDBManager {
                         dict[key] = object?[key] as? String
                     }
                     
-                    //appending it to list
+                    // appending it to list
                     list.append(dict)
                 }
                 self.dataList.append(contentsOf: list)

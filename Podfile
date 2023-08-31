@@ -7,4 +7,5 @@ target 'FBRealTimeDemo' do
 
   # Pods for FBRealTimeDemo
 pod 'FirebaseDatabase'
+pod 'SwiftLint'
 end

@@ -44,7 +44,6 @@ struct ContentView: View {
                 .disabled((contentVm.movie.isEmpty || contentVm.user.isEmpty) ? true : false)
             }
             
-            
             if !contentVm.status.isEmpty {
                 Text(contentVm.status)
                     .font(.subheadline)

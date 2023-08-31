@@ -170,6 +170,7 @@
 			buildConfigurationList = B1F96BE22A97296B00105F7B /* Build configuration list for PBXNativeTarget "FBRealTimeDemo" */;
 			buildPhases = (
 				5858A2CB85F9532153920B17 /* [CP] Check Pods Manifest.lock */,
+				B195E45E2AA0BF6C00E1CEE0 /* Run Script */,
 				B1F96BD02A97296A00105F7B /* Sources */,
 				B1F96BD12A97296A00105F7B /* Frameworks */,
 				B1F96BD22A97296A00105F7B /* Resources */,
@@ -269,6 +270,24 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FBRealTimeDemo/Pods-FBRealTimeDemo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		B195E45E2AA0BF6C00E1CEE0 /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

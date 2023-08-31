@@ -102,7 +102,7 @@ class ContentViewModel: ObservableObject {
             }
         }
         
-        dbManager.pagingData() { list in
+        dbManager.pagingData { list in
             
             if let list {
                 self.movieList.removeAll()
@@ -121,7 +121,6 @@ class ContentViewModel: ObservableObject {
             self.isScrolling = false
         }
     }
-    
     
     func removeObservers() {
         dbManager.removeObserver()
